@@ -32,4 +32,4 @@
 *.app
 
 # Visual studio shenanagins
-*.vsidx
+.vs/
