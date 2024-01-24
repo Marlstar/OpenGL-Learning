@@ -18,5 +18,49 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="glad.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include=".gitignore" />
+    <None Include="x64\Debug\OpenGL-Learning.exe" />
+    <None Include="x64\Debug\OpenGL-Learning.exe.recipe" />
+    <None Include="x64\Debug\OpenGL-Learning.ilk" />
+    <None Include="x64\Debug\OpenGL-Learning.pdb" />
+    <None Include="x64\Debug\vc143.idb" />
+    <None Include="x64\Debug\vc143.pdb" />
+    <None Include="x64\Debug\OpenGL-Learning.tlog\CL.command.1.tlog" />
+    <None Include="x64\Debug\OpenGL-Learning.tlog\Cl.items.tlog" />
+    <None Include="x64\Debug\OpenGL-Learning.tlog\CL.read.1.tlog" />
+    <None Include="x64\Debug\OpenGL-Learning.tlog\CL.write.1.tlog" />
+    <None Include="x64\Debug\OpenGL-Learning.tlog\link.command.1.tlog" />
+    <None Include="x64\Debug\OpenGL-Learning.tlog\link.read.1.tlog" />
+    <None Include="x64\Debug\OpenGL-Learning.tlog\link.write.1.tlog" />
+    <None Include="x64\Debug\OpenGL-Learning.tlog\OpenGL-Learning.lastbuildstate" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="lib\glfw3.lib" />
+  </ItemGroup>
+  <ItemGroup>
+    <Object Include="x64\Debug\main.obj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="x64\Debug\OpenGL-Learning.log" />
+    <Text Include="x64\Debug\OpenGL-Learning.vcxproj.FileListAbsolute.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\KHR\khrplatform.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\GLAD\glad.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\GLFW\glfw3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\GLFW\glfw3native.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

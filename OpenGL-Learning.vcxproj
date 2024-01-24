@@ -104,12 +104,12 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\marle\code\GLAD-3.3\include;C:\Users\marle\code\glfw-3.3.9\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)lib;$(SolutionDir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\marle\code\glfw-3.3.9\lib-vc2022;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>glfw3.lib;opengl32.lib;user32.lib;gdi32.lib;shell32.lib;kernel32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -130,7 +130,41 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="glad.c" />
     <ClCompile Include="main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include=".gitignore" />
+    <None Include="x64\Debug\OpenGL-Learning.exe" />
+    <None Include="x64\Debug\OpenGL-Learning.exe.recipe" />
+    <None Include="x64\Debug\OpenGL-Learning.ilk" />
+    <None Include="x64\Debug\OpenGL-Learning.pdb" />
+    <None Include="x64\Debug\OpenGL-Learning.tlog\CL.command.1.tlog" />
+    <None Include="x64\Debug\OpenGL-Learning.tlog\Cl.items.tlog" />
+    <None Include="x64\Debug\OpenGL-Learning.tlog\CL.read.1.tlog" />
+    <None Include="x64\Debug\OpenGL-Learning.tlog\CL.write.1.tlog" />
+    <None Include="x64\Debug\OpenGL-Learning.tlog\link.command.1.tlog" />
+    <None Include="x64\Debug\OpenGL-Learning.tlog\link.read.1.tlog" />
+    <None Include="x64\Debug\OpenGL-Learning.tlog\link.write.1.tlog" />
+    <None Include="x64\Debug\OpenGL-Learning.tlog\OpenGL-Learning.lastbuildstate" />
+    <None Include="x64\Debug\vc143.idb" />
+    <None Include="x64\Debug\vc143.pdb" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="lib\glfw3.lib" />
+  </ItemGroup>
+  <ItemGroup>
+    <Object Include="x64\Debug\main.obj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="x64\Debug\OpenGL-Learning.log" />
+    <Text Include="x64\Debug\OpenGL-Learning.vcxproj.FileListAbsolute.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\GLAD\glad.h" />
+    <ClInclude Include="include\GLFW\glfw3.h" />
+    <ClInclude Include="include\GLFW\glfw3native.h" />
+    <ClInclude Include="include\KHR\khrplatform.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
