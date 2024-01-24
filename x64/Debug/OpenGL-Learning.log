@@ -1,4 +1,2 @@
-﻿  glad.c
-  main.cpp
-x64\Debug\main.obj : warning LNK4042: object specified more than once; extras ignored
+﻿  main.cpp
   OpenGL-Learning.vcxproj -> C:\Users\marle\source\repos\OpenGL-Learning\x64\Debug\OpenGL-Learning.exe

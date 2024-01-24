@@ -1,13 +1,98 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
+#include <iostream>
+#include <string>
+#include <array>
+#include <vector>
+
+
+// Window settings
+struct {
+    int width = 800;
+    int height = 600;
+    std::string title = "the pinnacle of epicness";    
+} windowSettings;
+
+// Rendering settings
+struct {
+    float clearColour[4] = { 0.53f, 0.81f, 0.92f, 1.0f }; // RGBA, scaled from 0-1 rather than 0-255
+} renderSettings;
+
+// Resize the viewport when the window is resized
+void framebuffer_size_callback(GLFWwindow* window, int width, int height);
+
+
+// Input
+void processInput(GLFWwindow* window);
+
+
+
+
 int main()
 {
+    
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     //glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
-    return 1;
+    
+    // Creating the window
+    GLFWwindow* window = glfwCreateWindow(windowSettings.width, windowSettings.height, windowSettings.title.c_str(), NULL, NULL);
+    if (window == NULL) // If the window fails to create
+    {
+        std::cout << "Failed to create GLFW window" << std::endl;
+        glfwTerminate();
+        return -1;
+    }
+
+    glfwMakeContextCurrent(window);
+
+    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+    {
+        std::cout << "Failed to initialize GLAD" << std::endl;
+        return -1;
+    }
+
+    
+    glViewport(0, 0, windowSettings.width, windowSettings.height);
+    glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+
+    
+    // #=================# \\ 
+    // Main Rendering Loop \\ 
+    // #=================# \\ 
+    while (!glfwWindowShouldClose(window))
+    {
+        // Input
+        processInput(window);
+
+        // Rendering
+        glClearColor(renderSettings.clearColour[0], renderSettings.clearColour[1], renderSettings.clearColour[2], renderSettings.clearColour[3]);
+        glClear(GL_COLOR_BUFFER_BIT);
+           
+        // Check and call the events and swap the buffers
+        // Can kinda guess what this does but idk
+        // Probably swaps the currently rendering frame to the newly rendered one
+        glfwSwapBuffers(window);
+        glfwPollEvents();
+    }
+
+    glfwTerminate();
+    return 0;
+}
+
+
+
+void framebuffer_size_callback(GLFWwindow* window, int width, int height)
+{
+    glViewport(0, 0, width, height);
+}
+
+void processInput(GLFWwindow* window)
+{
+    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+        glfwSetWindowShouldClose(window, true);
 }
