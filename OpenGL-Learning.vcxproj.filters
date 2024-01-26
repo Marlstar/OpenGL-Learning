@@ -38,7 +38,8 @@
     <None Include="x64\Debug\OpenGL-Learning.tlog\link.read.1.tlog" />
     <None Include="x64\Debug\OpenGL-Learning.tlog\link.write.1.tlog" />
     <None Include="x64\Debug\OpenGL-Learning.tlog\OpenGL-Learning.lastbuildstate" />
-    <None Include="VertexShader.glsl" />
+    <None Include="SHADERS\VertexShader.glsl" />
+    <None Include="SHADERS\FragmentShader.glsl" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="lib\glfw3.lib" />

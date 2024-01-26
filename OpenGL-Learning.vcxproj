@@ -135,7 +135,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitignore" />
-    <None Include="VertexShader.glsl" />
+    <None Include="SHADERS\FragmentShader.glsl" />
+    <None Include="SHADERS\VertexShader.glsl" />
     <None Include="x64\Debug\OpenGL-Learning.exe" />
     <None Include="x64\Debug\OpenGL-Learning.exe.recipe" />
     <None Include="x64\Debug\OpenGL-Learning.ilk" />
