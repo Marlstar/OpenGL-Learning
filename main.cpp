@@ -3,6 +3,9 @@
 
 #include <SHADERCLASS/shader.h>
 
+#define STB_IMAGE_IMPLEMENTATION
+#include <OTHER/stb_image.h>
+
 #include <iostream>
 #include <string>
 #include <array>
@@ -10,14 +13,14 @@
 
 
 // Window settings
-struct {
+struct windowSettings_struct{
     int width = 800;
     int height = 600;
     std::string title = "the pinnacle of epicness";    
 } windowSettings;
 
 // Rendering settings
-struct {
+struct renderSettings_struct{
     float clearColour[4] = { 0.53f, 0.81f, 0.92f, 1.0f }; // RGBA, scaled from 0-1 rather than 0-255
 } renderSettings;
 
@@ -30,6 +33,7 @@ void processInput(GLFWwindow* window);
 
 int main()
 {
+    
     
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -66,13 +70,13 @@ int main()
     // #============================# \\ 
 
     float vertices[] = {
-    -0.9f, 0.9f, 0.0f,
-    -0.9f, -0.9f, 0.0f,
-    0.9f, 0.9f, 0.0f,
-
-    0.9f, 0.9f, 0.0f,
-    -0.9f, -0.9f, 0.0f,
-    0.9f, -0.9f, 0.0f
+    -0.9f, 0.9f, 0.0f,    1.0f, 0.0f, 0.0f,
+    -0.9f, -0.9f, 0.0f,   0.0f, 1.0f, 0.0f,
+    0.9f, 0.9f, 0.0f,     0.0f, 0.0f, 1.0f,
+    
+    0.9f, 0.9f, 0.0f,     0.0f, 0.0f, 1.0f,
+    -0.9f, -0.9f, 0.0f,   0.0f, 1.0f, 0.0f,
+    0.9f, -0.9f, 0.0f,    1.0f, 0.0f, 1.0f
     };
 
     // Vertex buffer
@@ -83,28 +87,28 @@ int main()
 
     Shader basicShader("SHADERS/VertexShader.glsl", "SHADERS/FragmentShader.glsl");
 
-    // Tell openGL how to interpret the vertex data we have given it
-    // Each vertex has 3 points, and each of those points is represented by a 4-byte float
-    // 
-    // #= Vertex 1 =# #= Vertex 2 =# #= Vertex 3 =#
-    // XXXX YYYY ZZZZ XXXX YYYY ZZZZ XXXX YYYY ZZZZ
-    // ==>4 ==>8 =>12 =>16 =>20 =>24 =>28 =>32 =>36
-
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3*sizeof(float), (void*)0);
-    glEnableVertexAttribArray(0);
-
-
     // VAO (Vertex Array Object)
     unsigned int VAO;
     glGenVertexArrays(1, &VAO);
-
     glBindVertexArray(VAO);
+
     // Bind to the buffer containing the vertices
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
     // Set the vertex attribute pointers
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3*sizeof(float), (void*)0);
-    glEnableVertexAttribArray(0);
+    int attributeCount = 2;
+    int countPer = 3;
+    int attributeID;
+
+    // Position
+    attributeID = 0;
+    glVertexAttribPointer(attributeID, countPer, GL_FLOAT, GL_FALSE, attributeCount * countPer * sizeof(float), (void*)(sizeof(float) * countPer * attributeID));
+    glEnableVertexAttribArray(attributeID);
+    // Colour
+    attributeID = 1;
+    glVertexAttribPointer(attributeID, countPer, GL_FLOAT, GL_FALSE, attributeCount * countPer * sizeof(float), (void*)(sizeof(float) * countPer * attributeID));
+    glEnableVertexAttribArray(attributeID);
 
 
     
@@ -152,4 +156,17 @@ void processInput(GLFWwindow* window)
 {
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
+}
+
+unsigned int getTexture(char* texturePath, bool flipImage)
+{
+    (flipImage) ? stbi_set_flip_vertically_on_load(true) : stbi_set_flip_vertically_on_load(false);
+
+    int width, height, nrChannels;
+    unsigned char *data = stbi_load(texturePath, &width, &height, &nrChannels, 0);
+
+    unsigned int texture;
+    glGenTextures(1, &texture);
+
+    glBindTexture(GL_TEXTURE_2D, texture);
 }
