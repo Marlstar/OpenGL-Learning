@@ -22,10 +22,14 @@ struct windowSettings_struct{
 // Rendering settings
 struct renderSettings_struct{
     float clearColour[4] = { 0.53f, 0.81f, 0.92f, 1.0f }; // RGBA, scaled from 0-1 rather than 0-255
+    bool pixelArt = true;
 } renderSettings;
 
 // Resize the viewport when the window is resized
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
+
+// Texture loading function
+void loadTexture(const char* texturePath, bool flipImage = true);
 
 // Input
 void processInput(GLFWwindow* window);
@@ -68,15 +72,27 @@ int main()
     // #============================# \\ 
     // Vertices & Vertex Shader Stuff \\ 
     // #============================# \\ 
-
+    /*
     float vertices[] = {
-    -0.9f, 0.9f, 0.0f,    1.0f, 0.0f, 0.0f,
-    -0.9f, -0.9f, 0.0f,   0.0f, 1.0f, 0.0f,
-    0.9f, 0.9f, 0.0f,     0.0f, 0.0f, 1.0f,
+    // Position           // Colour             // Texture coords
+    -0.9f, 0.9f, 0.0f,    1.0f, 0.0f, 0.0f,     0.0f, 1.0f,
+    -0.9f, -0.9f, 0.0f,   0.0f, 1.0f, 0.0f,     0.0f, 0.0f,
+    0.9f, 0.9f, 0.0f,     0.0f, 0.0f, 1.0f,     1.0f, 1.0f,
     
-    0.9f, 0.9f, 0.0f,     0.0f, 0.0f, 1.0f,
-    -0.9f, -0.9f, 0.0f,   0.0f, 1.0f, 0.0f,
-    0.9f, -0.9f, 0.0f,    1.0f, 0.0f, 1.0f
+    0.9f, 0.9f, 0.0f,     0.0f, 0.0f, 1.0f,     1.0f, 1.0f,
+    -0.9f, -0.9f, 0.0f,   0.0f, 1.0f, 0.0f,     0.0f, 0.0f,
+    0.9f, -0.9f, 0.0f,    1.0f, 0.0f, 1.0f,     1.0f, 0.0f
+    };
+    */
+    float vertices[] = {
+        // Position           // Colour             // Texture coords
+        -0.9f, 0.9f, 0.0f,    1.0f, 0.0f, 0.0f,     0.0, 1.0,
+        -0.9f, -0.9f, 0.0f,   0.0f, 1.0f, 0.0f,     0.0, 0.0,
+        0.9f, 0.9f, 0.0f,     0.0f, 0.0f, 1.0f,     1.0, 1.0,
+
+        0.9f, 0.9f, 0.0f,     0.0f, 0.0f, 1.0f,     1.0, 1.0,
+        -0.9f, -0.9f, 0.0f,   0.0f, 1.0f, 0.0f,     0.0, 0.0,
+        0.9f, -0.9f, 0.0f,    1.0f, 0.0f, 1.0f,     1.0, 0.0
     };
 
     // Vertex buffer
@@ -85,30 +101,45 @@ int main()
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-    Shader basicShader("SHADERS/VertexShader.glsl", "SHADERS/FragmentShader.glsl");
+    loadTexture("resources/textures/blueuniverse.png");
+
+    Shader basicShader("resources/shaders/VertexShader.glsl", "resources/shaders/FragmentShader.glsl");
 
     // VAO (Vertex Array Object)
     unsigned int VAO;
     glGenVertexArrays(1, &VAO);
     glBindVertexArray(VAO);
 
-    // Bind to the buffer containing the vertices
+    // Bind to the buffer containi6ng the vertices
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
     // Set the vertex attribute pointers
     int attributeCount = 2;
-    int countPer = 3;
+    int count;
     int attributeID;
 
-    // Position
-    attributeID = 0;
-    glVertexAttribPointer(attributeID, countPer, GL_FLOAT, GL_FALSE, attributeCount * countPer * sizeof(float), (void*)(sizeof(float) * countPer * attributeID));
-    glEnableVertexAttribArray(attributeID);
-    // Colour
-    attributeID = 1;
-    glVertexAttribPointer(attributeID, countPer, GL_FLOAT, GL_FALSE, attributeCount * countPer * sizeof(float), (void*)(sizeof(float) * countPer * attributeID));
-    glEnableVertexAttribArray(attributeID);
+    // Position:        ID: 0, Size: 3
+    // Colour:          ID: 1, Size: 3
+    // Texture coords:  ID: 2, Size: 2
+    int attributes[] = {
+        3, 3, 2
+    };
+
+    int stride = 0;
+    for (int attrib : attributes) { stride += attrib; }
+
+    int offset = 0;
+    for (int i = 0; i < (sizeof(attributes) / sizeof(int)); i++)
+    {
+        attributeID = i;
+        count = attributes[i];
+
+        glVertexAttribPointer(attributeID, count, GL_FLOAT, GL_FALSE, stride * sizeof(float), (void*)(sizeof(float) * offset));
+        glEnableVertexAttribArray(attributeID);
+
+        offset += i;
+    }
 
 
     
@@ -158,15 +189,47 @@ void processInput(GLFWwindow* window)
         glfwSetWindowShouldClose(window, true);
 }
 
-unsigned int getTexture(char* texturePath, bool flipImage)
+void loadTexture(const char* texturePath, bool flipImage)
 {
     (flipImage) ? stbi_set_flip_vertically_on_load(true) : stbi_set_flip_vertically_on_load(false);
 
-    int width, height, nrChannels;
-    unsigned char *data = stbi_load(texturePath, &width, &height, &nrChannels, 0);
-
+    // Bind somewhere on the GPU
     unsigned int texture;
     glGenTextures(1, &texture);
-
     glBindTexture(GL_TEXTURE_2D, texture);
+
+    // Configure the texture
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE); // GL_REPEAT
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+    if (renderSettings.pixelArt)
+    {
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    }
+    else
+    {
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    }
+    
+
+    // Read the image from file
+    int width, height, nrChannels;
+    unsigned char* data = stbi_load(texturePath, &width, &height, &nrChannels, STBI_rgb_alpha);
+
+    if (data)
+    {
+        // Create the texture and its mipmap
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+        glGenerateMipmap(GL_TEXTURE_2D);
+
+        std::cout << "SUCCESS loading texture : " << texturePath << std::endl;
+    }
+    else
+    {
+        std::cout << "FAILED to load texture : " << texturePath << std::endl;
+    }
+
+    // Free the image memory
+    stbi_image_free(data);
 }

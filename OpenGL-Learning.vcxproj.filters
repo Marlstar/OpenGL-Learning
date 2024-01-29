@@ -38,8 +38,8 @@
     <None Include="x64\Debug\OpenGL-Learning.tlog\link.read.1.tlog" />
     <None Include="x64\Debug\OpenGL-Learning.tlog\link.write.1.tlog" />
     <None Include="x64\Debug\OpenGL-Learning.tlog\OpenGL-Learning.lastbuildstate" />
-    <None Include="SHADERS\VertexShader.glsl" />
-    <None Include="SHADERS\FragmentShader.glsl" />
+    <None Include="resources\shaders\VertexShader.glsl" />
+    <None Include="resources\shaders\FragmentShader.glsl" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="lib\glfw3.lib" />
@@ -67,5 +67,16 @@
     <ClInclude Include="include\SHADERCLASS\shader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="resources\textures\dirt.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\textures\grass.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\textures\blueuniverse.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>
