@@ -72,7 +72,7 @@ int main()
     // #============================# \\ 
     // Vertices & Vertex Shader Stuff \\ 
     // #============================# \\ 
-    /*
+    
     float vertices[] = {
     // Position           // Colour             // Texture coords
     -0.9f, 0.9f, 0.0f,    1.0f, 0.0f, 0.0f,     0.0f, 1.0f,
@@ -83,17 +83,7 @@ int main()
     -0.9f, -0.9f, 0.0f,   0.0f, 1.0f, 0.0f,     0.0f, 0.0f,
     0.9f, -0.9f, 0.0f,    1.0f, 0.0f, 1.0f,     1.0f, 0.0f
     };
-    */
-    float vertices[] = {
-        // Position           // Colour             // Texture coords
-        -0.9f, 0.9f, 0.0f,    1.0f, 0.0f, 0.0f,     0.0, 1.0,
-        -0.9f, -0.9f, 0.0f,   0.0f, 1.0f, 0.0f,     0.0, 0.0,
-        0.9f, 0.9f, 0.0f,     0.0f, 0.0f, 1.0f,     1.0, 1.0,
-
-        0.9f, 0.9f, 0.0f,     0.0f, 0.0f, 1.0f,     1.0, 1.0,
-        -0.9f, -0.9f, 0.0f,   0.0f, 1.0f, 0.0f,     0.0, 0.0,
-        0.9f, -0.9f, 0.0f,    1.0f, 0.0f, 1.0f,     1.0, 0.0
-    };
+    
 
     // Vertex buffer
     unsigned int VBO;
@@ -201,8 +191,8 @@ void loadTexture(const char* texturePath, bool flipImage)
     // Configure the texture
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE); // GL_REPEAT
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
+    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
     if (renderSettings.pixelArt)
     {
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
