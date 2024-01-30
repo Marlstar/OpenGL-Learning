@@ -131,6 +131,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="glad.c" />
+    <ClCompile Include="inputHandler.cpp" />
     <ClCompile Include="loadTexture.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
@@ -164,6 +165,7 @@
     <Text Include="x64\Debug\OpenGL-Learning.vcxproj.FileListAbsolute.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\CUSTOM\inputHandler.h" />
     <ClInclude Include="include\CUSTOM\loadTexture.h" />
     <ClInclude Include="include\GLAD\glad.h" />
     <ClInclude Include="include\GLFW\glfw3.h" />

@@ -2,7 +2,10 @@
 #include <GLFW/glfw3.h>
 
 #include <SHADERCLASS/shader.h>
+
+// Core functionalities
 #include <CUSTOM/loadTexture.h>
+#include <CUSTOM/inputHandler.h>
 
 #define STB_IMAGE_IMPLEMENTATION
 #include <OTHER/stb_image.h>
@@ -29,11 +32,10 @@ struct renderSettings_struct{
 // Resize the viewport when the window is resized
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 
+// Texture stuff
 // Texture loading function (moved to own file)
 //void loadTexture(const char* texturePath, bool flipImage = true);
 
-// Input
-void processInput(GLFWwindow* window);
 
 
 int main()
@@ -129,7 +131,7 @@ int main()
         offset += count;
     }
 
-
+    glfwSetKeyCallback(window, keyCallback);
     
     // #=================# \\ 
     // Main Rendering Loop \\ 
@@ -137,7 +139,7 @@ int main()
     while (!glfwWindowShouldClose(window))
     {
         // Input \\ 
-        processInput(window);
+        bool spacePressed = checkKey(GLFW_KEY_SPACE);
 
         // Rendering \\ 
         // Setting the clear colour
@@ -171,9 +173,5 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
     glViewport(0, 0, width, height);
 }
 
-void processInput(GLFWwindow* window)
-{
-    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-        glfwSetWindowShouldClose(window, true);
-}
+
 
