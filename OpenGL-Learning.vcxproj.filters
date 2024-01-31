@@ -21,7 +21,7 @@
     <ClCompile Include="glad.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="loadTexture.cpp">
+    <ClCompile Include="textureManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="inputHandler.cpp">
@@ -73,7 +73,7 @@
     <ClInclude Include="include\SHADERCLASS\shader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\CUSTOM\loadTexture.h">
+    <ClInclude Include="include\CUSTOM\textureManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\CUSTOM\inputHandler.h">

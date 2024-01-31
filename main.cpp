@@ -4,7 +4,7 @@
 #include <SHADERCLASS/shader.h>
 
 // Core functionalities
-#include <CUSTOM/loadTexture.h>
+#include <CUSTOM/textureManager.h>
 #include <CUSTOM/inputHandler.h>
 
 #define STB_IMAGE_IMPLEMENTATION
@@ -35,7 +35,7 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 // Texture stuff
 // Texture loading function (moved to own file)
 //void loadTexture(const char* texturePath, bool flipImage = true);
-
+TextureManager textureManager;
 
 
 int main()
@@ -92,7 +92,11 @@ int main()
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-    loadTexture("resources/textures/blueuniverse.png");
+    
+
+    textureManager.initTexture("Dirt", "resources");
+
+    // OLD | loadTexture("resources/textures/blueuniverse.png");
 
     Shader basicShader("resources/shaders/VertexShader.glsl", "resources/shaders/FragmentShader.glsl");
 
