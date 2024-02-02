@@ -1,11 +1,15 @@
 #pragma once
 #include <map>
 
+#ifndef TextureManagerHeader
+#define TextureManagerHeader
+
 class Texture {
 public:
 	char* name;
 	char* path;
-	Texture(char* name_, char* path_);
+	
+	Texture(char* name_, char* path_, bool pixelArt_, bool flipImage_);
 
 	inline void setTextureSetting(GLint setting, GLint val);
 	inline void removeTextureSetting(GLint setting);
@@ -14,6 +18,8 @@ public:
 	void use();
 
 private:
+	bool pixelArt;
+	bool flipImage;
 	bool mipmapGenerated = false;
 	unsigned int texture;
 	bool imageLoadSuccess;
@@ -30,6 +36,7 @@ private:
 	inline void bind();
 	unsigned char* loadImage();
 	void createTexMipmap(unsigned char* data);
+	void initSettings();
 };
 
 class TextureManager {
@@ -38,6 +45,8 @@ public:
 	void useTexture(char* tex, bool setCurrent = true);
 private:
 	inline void reloadPreviousTexture();
-	std::map<const char*, Texture> textures;
-	char* currentTexture;
+	std::map<const char*, Texture*> textures;
+	char* currentTexture = (char*)"None";
 };
+
+#endif

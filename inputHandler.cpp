@@ -32,7 +32,7 @@ void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
             //pressedKeys[key] = (true);
             pressedKeys[key] = (action == GLFW_PRESS);
         }
-        else
+        else if (action == GLFW_RELEASE)
         {
             pressedKeys[key] = false;
         }
@@ -41,7 +41,4 @@ void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
     }   
 }
 
-inline bool checkKey(int key)
-{
-    return pressedKeys[key];
-}
+

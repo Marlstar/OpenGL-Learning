@@ -94,7 +94,8 @@ int main()
 
     
 
-    textureManager.initTexture("Dirt", "resources");
+    textureManager.initTexture("Dirt", "resources/textures/dirt.png");
+    textureManager.initTexture("Grass", "resources/textures/grass.png");
 
     // OLD | loadTexture("resources/textures/blueuniverse.png");
 
@@ -112,7 +113,6 @@ int main()
     // Set the vertex attribute pointers
     int attributeCount = 2;
     int count;
-    int attributeID;
 
     // Position:        ID: 0, Size: 3
     // Colour:          ID: 1, Size: 3
@@ -150,9 +150,19 @@ int main()
         glClearColor(renderSettings.clearColour[0], renderSettings.clearColour[1], renderSettings.clearColour[2], renderSettings.clearColour[3]);
         glClear(GL_COLOR_BUFFER_BIT);
 
+        // Set the texture to use
+        if (spacePressed)
+        {
+            textureManager.useTexture((char*)"Grass");
+        }
+        else
+        {
+            textureManager.useTexture((char*)"Dirt");
+        }
+
         // Drawing the triangles =)
         int numTriangles;
-        numTriangles = sizeof(vertices) / sizeof(float) / 3;
+        numTriangles = sizeof(vertices) / sizeof(float) / 8;
         //glUseProgram(shaderProgram);
         basicShader.use();
         glBindVertexArray(VAO);
