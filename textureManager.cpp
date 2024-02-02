@@ -72,66 +72,22 @@ void TextureManager::initTexture(const char* name_, const char* path_, bool pixe
     Texture* tex = new Texture(name, path, pixelArt, flipImage);
     textures[name] = tex;
 
-    return;
-    /*
-    unsigned int texture;
-
-    glGenTextures(1, &texture);
-    glBindTexture(GL_TEXTURE_2D, texture);
-
-
-    // Configure the texture
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE); // GL_REPEAT
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
-    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-
-    if (pixelArt)
-    {
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    }
-    else
-    {
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    }
-
-
-    // Read the image from file
-    int width, height, nrChannels;
-    unsigned char* data = stbi_load(path, &width, &height, &nrChannels, STBI_rgb_alpha);
-
-    if (data)
-    {
-        // Create the texture and its mipmap
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
-        glGenerateMipmap(GL_TEXTURE_2D);
-
-        std::cout << "SUCCESS loading texture : " << path << std::endl;
-    }
-    else
-    {
-        std::cout << "FAILED to load texture : " << path << std::endl;
-    }
-
-    // Add the texture to the texture manager's collection
-    Texture* textureObj = new Texture(name, path);
-    textures[name] = textureObj;
-
-    // Go back to the previous texure, if there was one
     reloadPreviousTexture();
-    */
 } 
 
 
 void TextureManager::useTexture(char* tex, bool setCurrent)
 {
+    if (tex == currentTexture) { return; }
+    previousTexture = currentTexture;
     textures[tex]->use();
+    currentTexture = tex;
 }
 
 //private:
 inline void TextureManager::reloadPreviousTexture()
 {
-    useTexture(currentTexture);
+    if (previousTexture) { useTexture(previousTexture); }
 }
 
 
@@ -155,6 +111,7 @@ Texture::Texture(char* name_, char* path_, bool pixelArt_, bool flipImage_)
     
 inline void Texture::setTextureSetting(GLint setting, GLint val)  { textureSettings[setting] = val; }
 inline void Texture::removeTextureSetting(GLint setting)          { textureSettings.erase(setting); }
+inline void Texture::clearTextureSettings()                       { textureSettings.clear(); }
 inline void Texture::configureAllTextureSettings()
 {
     std::cout << "\nConfiguring all texture settings for texture " << name << std::endl;
@@ -186,7 +143,7 @@ void Texture::initSettings()
 }
 
 // Use texture
-void Texture::use()
+inline void Texture::use()
 {
     bind();
 }

@@ -14,8 +14,9 @@ public:
 	inline void setTextureSetting(GLint setting, GLint val);
 	inline void removeTextureSetting(GLint setting);
 	inline void configureAllTextureSettings();
+	inline void clearTextureSettings();
 
-	void use();
+	inline void use();
 
 private:
 	bool pixelArt;
@@ -47,6 +48,7 @@ private:
 	inline void reloadPreviousTexture();
 	std::map<const char*, Texture*> textures;
 	char* currentTexture = (char*)"None";
+	char* previousTexture = NULL;
 };
 
 #endif
