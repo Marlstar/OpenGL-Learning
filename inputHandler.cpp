@@ -17,8 +17,6 @@ void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 {
     while (true)
     {
-        std::cout << "Key pressed: " << key << std::endl;
-
         // Closing the window by pressing the escape key
         if (key == GLFW_KEY_ESCAPE)
         {
@@ -36,7 +34,6 @@ void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
         {
             pressedKeys[key] = false;
         }
-        std::cout << "State of key: " << pressedKeys[key] << std::endl;
         break;
     }   
 }

@@ -16,6 +16,8 @@
 #include <array>
 #include <vector>
 
+#include <OTHER/termcolor.hpp>
+
 
 // Window settings
 struct windowSettings_struct{
@@ -38,9 +40,14 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 //void loadTexture(const char* texturePath, bool flipImage = true);
 TextureManager textureManager;
 
+// Tilemap
+TilemapManager tilemapManager;
+
 
 int main()
 {
+    std::cout << colour::yellow << "Warning: app probably has >87346 memory leaks, enjoy =)" << colour::reset << std::endl;
+
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -52,7 +59,7 @@ int main()
     GLFWwindow* window = glfwCreateWindow(windowSettings.width, windowSettings.height, windowSettings.title.c_str(), NULL, NULL);
     if (window == NULL) // If the window fails to create
     {
-        std::cout << "FAILED to create GLFW window" << std::endl;
+        std::cout << colour::red << "FAILED to create GLFW window" << colour::reset << std::endl;
         glfwTerminate();
         return -1;
     }
@@ -61,7 +68,7 @@ int main()
 
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
     {
-        std::cout << "FAILED to initialize GLAD" << std::endl;
+        std::cout << colour::red << "FAILED to initialize GLAD" << colour::reset << std::endl;
         return -1;
     }
 
@@ -100,6 +107,8 @@ int main()
 
     textureManager.initTexture("Dirt", "resources/textures/dirt.png");
     textureManager.initTexture("Grass", "resources/textures/grass.png");
+
+    tilemapManager.initTilemap()
 
     // OLD | loadTexture("resources/textures/blueuniverse.png");
 

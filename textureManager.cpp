@@ -11,54 +11,7 @@
 
 #include <CUSTOM/textureManager.h>
 
-unsigned int loadTexture(const char* texturePath, bool flipImage)
-{
-    stbi_set_flip_vertically_on_load(flipImage);
-
-    // Do something
-    unsigned int texture;
-    glGenTextures(1, &texture);
-    glBindTexture(GL_TEXTURE_2D, texture);
-
-    // Configure the texture
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE); // GL_REPEAT
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
-    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-    
-    //if (renderSettings.pixelArt)
-    if (true) // Temporarily always use pixel-art-style scaling and rendering of textures
-    {
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    }
-    else
-    {
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    }
-
-
-    // Read the image from file
-    int width, height, nrChannels;
-    unsigned char* data = stbi_load(texturePath, &width, &height, &nrChannels, STBI_rgb_alpha);
-
-    if (data)
-    {
-        // Create the texture and its mipmap
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
-        glGenerateMipmap(GL_TEXTURE_2D);
-
-        std::cout << "SUCCESS loading texture : " << texturePath << std::endl;
-    }
-    else
-    {
-        std::cout << "FAILED to load texture : " << texturePath << std::endl;
-    }
-
-    // Free the image memory
-    stbi_image_free(data);
-
-    return texture;
-}
+#include <OTHER/termcolor.hpp>
 
 //class TextureManager{
 //public:
@@ -67,7 +20,6 @@ void TextureManager::initTexture(const char* name_, const char* path_, bool pixe
     char* name = (char*)name_;
     char* path = (char*)path_;
 
-    std::cout << "Initialising texture " << name << std::endl;
 
     Texture* tex = new Texture(name, path, pixelArt, flipImage);
     textures[name] = tex;
@@ -114,13 +66,10 @@ inline void Texture::removeTextureSetting(GLint setting)          { textureSetti
 inline void Texture::clearTextureSettings()                       { textureSettings.clear(); }
 inline void Texture::configureAllTextureSettings()
 {
-    std::cout << "\nConfiguring all texture settings for texture " << name << std::endl;
     for (const auto p : textureSettings)
     {
         glTexParameteri(GL_TEXTURE_2D, p.first, p.second);
-        std::cout << "> " << p.first << " > " << p.second << std::endl;
     }
-    std::cout << std::endl;
 }
 void Texture::initSettings()
 {
@@ -178,12 +127,12 @@ unsigned char* Texture::loadImage()
     if (data)
     {
         imageLoadSuccess = true;
-        std::cout << "SUCCESS loading texture : " << path << std::endl;
+        std::cout << colour::green << "SUCCESS loading texture : " << path  << colour::reset << std::endl;
     }
     else
     {
         imageLoadSuccess = false;
-        std::cout << "FAILED to load texture : " << path << std::endl;
+        std::cout << colour::red << "FAILED to load texture : " << path << colour::reset << std::endl;
     }
     
     return data;
