@@ -27,6 +27,9 @@
     <ClCompile Include="inputHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Tilemap.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitignore" />
@@ -56,6 +59,7 @@
   <ItemGroup>
     <Text Include="x64\Debug\OpenGL-Learning.log" />
     <Text Include="x64\Debug\OpenGL-Learning.vcxproj.FileListAbsolute.txt" />
+    <Text Include="resources\tilemaps\test_tilemap1.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\KHR\khrplatform.h">
@@ -77,6 +81,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\CUSTOM\inputHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\CUSTOM\tilemap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

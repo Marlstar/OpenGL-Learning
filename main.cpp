@@ -6,6 +6,7 @@
 // Core functionalities
 #include <CUSTOM/textureManager.h>
 #include <CUSTOM/inputHandler.h>
+#include <CUSTOM/tilemap.h>
 
 #define STB_IMAGE_IMPLEMENTATION
 #include <OTHER/stb_image.h>
@@ -68,7 +69,10 @@ int main()
     glViewport(0, 0, windowSettings.width, windowSettings.height);
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
-
+    // #=====================# \\ 
+    // Tilemap and world stuff \\ 
+    // #=====================# \\ 
+    
 
     // #============================# \\ 
     // Vertices & Vertex Shader Stuff \\ 
@@ -134,7 +138,7 @@ int main()
 
         offset += count;
     }
-
+    
     glfwSetKeyCallback(window, keyCallback);
     
     // #=================# \\ 

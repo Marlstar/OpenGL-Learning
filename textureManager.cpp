@@ -185,7 +185,7 @@ unsigned char* Texture::loadImage()
         imageLoadSuccess = false;
         std::cout << "FAILED to load texture : " << path << std::endl;
     }
-
+    
     return data;
 }
 

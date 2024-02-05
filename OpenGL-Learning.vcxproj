@@ -137,6 +137,7 @@
     <ClCompile Include="inputHandler.cpp" />
     <ClCompile Include="textureManager.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Tilemap.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitignore" />
@@ -164,12 +165,14 @@
     <Object Include="x64\Debug\main.obj" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="resources\tilemaps\test_tilemap1.txt" />
     <Text Include="x64\Debug\OpenGL-Learning.log" />
     <Text Include="x64\Debug\OpenGL-Learning.vcxproj.FileListAbsolute.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\CUSTOM\inputHandler.h" />
     <ClInclude Include="include\CUSTOM\textureManager.h" />
+    <ClInclude Include="include\CUSTOM\tilemap.h" />
     <ClInclude Include="include\GLAD\glad.h" />
     <ClInclude Include="include\GLFW\glfw3.h" />
     <ClInclude Include="include\GLFW\glfw3native.h" />
