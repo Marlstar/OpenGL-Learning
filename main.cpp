@@ -42,42 +42,33 @@ struct
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 
 
-// GL core stuff
-GLmanager glManager;
-
-// Main window
-Window window;
-
-// Rendering
-Renderer renderer;
-
-// Texture stuff
-TextureManager textureManager;
-
-// Tilemap
-TilemapManager tilemapManager;
-
-
 int main()
 {
-    std::cout << colour::yellow << "Warning: app probably has >87346 memory leaks, enjoy =)" << colour::reset << std::endl;
+    std::cout << colour::bright_blue << "Hello!" << colour::reset << std::endl;
 
+    // GL core stuff
+    GLmanager glManager;
     glManager.initGL();
+    
+    // Main window
+    Window window(settings.window.width, settings.window.height, settings.window.title);
 
+    // Rendering
+    Renderer renderer;
+
+    // Texture stuff
+    TextureManager textureManager;
+
+    // Tilemap
+    TilemapManager tilemapManager;
     
     // Creating the window
-    window.createWindow(settings.window.width, settings.window.height, settings.window.title);
     glfwMakeContextCurrent(window.window);
     
     glManager.checkGlad();
     
-    glViewport(0, 0, settings.window.width, settings.window.height);
-    glfwSetFramebufferSizeCallback(window.window, framebuffer_size_callback);
+    window.initialConfiguration();
 
-    // #=====================# \\ 
-    // Tilemap and world stuff \\ 
-    // #=====================# \\ 
-    
 
     // #============================# \\ 
     // Vertices & Vertex Shader Stuff \\ 
@@ -96,33 +87,30 @@ int main()
     
 
     // Vertex buffer
-    unsigned int VBO;
-    glGenBuffers(1, &VBO);
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
+    renderer.vertices.createVBO(vertices);
+    unsigned int& VBO = renderer.vertices.VBO;
     
 
+    // #======# \\
+    // Textures \\
+    // #======# \\ 
     textureManager.initTexture("Dirt", "resources/textures/dirt.png");
     textureManager.initTexture("Grass", "resources/textures/grass.png");
-
-    //tilemapManager.initTilemap()
-
-    // OLD | loadTexture("resources/textures/blueuniverse.png");
-
+    
+    // #=====# \\
+    // Shaders \\
+    // #=====# \\ 
     Shader basicShader("resources/shaders/VertexShader.glsl", "resources/shaders/FragmentShader.glsl");
 
-    // VAO (Vertex Array Object)
-    unsigned int VAO;
-    glGenVertexArrays(1, &VAO);
-    glBindVertexArray(VAO);
 
-    // Bind to the buffer containi6ng the vertices
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+    // VAO (Vertex Array Object)
+    renderer.vertices.createVAO();
+    unsigned int& VAO = renderer.vertices.VAO;
+
+    // Bind to the buffer containing the vertices
+    renderer.vertices.bindVBO(vertices);
 
     // Set the vertex attribute pointers
-    int attributeCount = 2;
     int count;
 
     // Position:        ID: 0, Size: 3

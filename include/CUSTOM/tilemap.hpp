@@ -50,16 +50,14 @@ public:
 	void initTilemap(const char* name, const char* path)
 	{
 		// Check if there is already a tilemap by that name
-		if (tilemaps.count((char*)name) == 0)
+		if (tilemaps.count((char*)name) != 0)
 		{
-			//SetConsoleTextAttribute(GetStdHandle( STD_OUTPUT_HANDLE ), 4);
 			std::cout << colour::red << "ERROR initialising tilemap \"" << name << "\" | A tilemap with that name already exists" << colour::reset << std::endl;
-			//SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
+
 		}
 	};
 
 private:
-	const char* tilemapPath;
 
 };
 

@@ -13,8 +13,20 @@ class Window
 {
 public:
 	GLFWwindow* window;
+	int width = 0;
+	int height = 0;
+	std::string title = "Default Title";
 
-	void createWindow(int width, int height, std::string title)
+	Window(int width_, int height_, std::string title_)
+	{
+		width = width_;
+		height = height_;
+		title = title_;
+		
+		createWindow();
+	}
+
+	void createWindow()
 	{
 		window = glfwCreateWindow(width, height, title.c_str(), NULL, NULL);
 		if (window == NULL) // If the window fails to create
@@ -26,7 +38,7 @@ public:
 	}
 	void initialConfiguration()
 	{
-
+		glViewport(0, 0, width, height);
 	}
 private:
 	
