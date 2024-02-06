@@ -1,7 +1,6 @@
+#pragma once
 #include <GLAD/glad.h>
 #include <GLFW/glfw3.h>
-
-#include <CUSTOM/tilemap.h>
 
 #include <vector>
 #include <map>
@@ -14,16 +13,38 @@
 
 #include <OTHER/termcolor.hpp>
 
-std::map<int, const char*> tileIDs = {
+class TILEIDS
+{
+public:
+	const char* tile(int id)
+	{
+		return IDtoTILE[id];
+	}
+	int tile(const char* t)
+	{
+		return TILEtoID[t];
+	}
+
+	TILEIDS()
+	{
+		for (auto item : IDtoTILE)
+		{
+			TILEtoID[item.second] = item.first;
+		}
+	}
+private:
+	std::map<int, const char*> IDtoTILE = {
 	{0, "dirt"},
 	{1, "grass"}
-};
+	};
+	std::map<const char*, int> TILEtoID;
+} tileIDs;
 
 
 class TilemapManager
 {
 public:
-	char* currentTilemap;
+	char* currentTilemap = NULL;
 	std::map< char*, std::vector<std::vector<int>> > tilemaps;
 
 	void initTilemap(const char* name, const char* path)
@@ -39,8 +60,9 @@ public:
 
 private:
 	const char* tilemapPath;
-	
+
 };
+
 class Tile
 {
 public:
@@ -57,7 +79,7 @@ public:
 	Tile(char* name_, float coords_[2], float texCoords_[2])
 	{
 		name = name_;
-		
+
 		coords[0] = coords_[0];
 		coords[1] = coords_[1];
 		x = coords[0];
@@ -90,7 +112,7 @@ public:
 	std::vector<std::vector<const char*>> tilemapByTileNames;
 	std::vector<std::vector<Tile*>> tilemap;
 
-	
+
 private:
 	//////////////////////////////////////////////////////////////////
 	void readTilemapFromFile(const char* path)
@@ -118,7 +140,7 @@ private:
 				if (!lineReader) { break; }
 				rowRaw.push_back(val);
 				// Tile names
-				rowByNames.push_back(tileIDs[val]);
+				rowByNames.push_back(tileIDs.tile(val));
 
 			}
 			rawTilemap.push_back(rowRaw);
@@ -129,9 +151,9 @@ private:
 
 	void initTiles()
 	{
-		
+
 		for (int y = 0; y < height; y++)
-		{	
+		{
 			std::cout << std::endl;
 			tilemap.push_back(std::vector<Tile*>{});
 			for (int x = 0; x < width; x++)
@@ -139,7 +161,7 @@ private:
 				// Init tile at that coord
 
 				// Coords to pass in
-				float c[2]  = { x,y };
+				float c[2] = { static_cast<float>(x), static_cast<float>(y) };
 				float tc[2] = { 1,1 }; // need to fix this to actually be texture coordinates. needs to be multiple vertices
 
 				Tile* t = new Tile((char*)tilemapByTileNames[y][x], c, tc);
@@ -149,6 +171,4 @@ private:
 			}
 		}
 	}
-
 };
-

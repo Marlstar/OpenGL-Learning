@@ -1,3 +1,5 @@
+#pragma once
+
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
@@ -8,8 +10,6 @@
 #include <array>
 #include <vector>
 #include <map>
-
-#include <CUSTOM/inputHandler.h>
 
 std::map<int, bool> pressedKeys;
 
@@ -35,7 +35,12 @@ void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
             pressedKeys[key] = false;
         }
         break;
-    }   
+    }
 }
 
 
+
+inline bool checkKey(int key)
+{
+    return pressedKeys[key];
+}

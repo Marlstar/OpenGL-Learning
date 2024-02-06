@@ -134,10 +134,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="glad.c" />
-    <ClCompile Include="inputHandler.cpp" />
-    <ClCompile Include="textureManager.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Tilemap.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitignore" />
@@ -170,13 +167,17 @@
     <Text Include="x64\Debug\OpenGL-Learning.vcxproj.FileListAbsolute.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\CUSTOM\inputHandler.h" />
-    <ClInclude Include="include\CUSTOM\textureManager.h" />
-    <ClInclude Include="include\CUSTOM\tilemap.h" />
+    <ClInclude Include="include\CUSTOM\GLmanager.hpp" />
+    <ClInclude Include="include\CUSTOM\inputHandler.hpp" />
+    <ClInclude Include="include\CUSTOM\renderer.hpp" />
+    <ClInclude Include="include\CUSTOM\textureManager.hpp" />
+    <ClInclude Include="include\CUSTOM\tilemap.hpp" />
+    <ClInclude Include="include\CUSTOM\window.hpp" />
     <ClInclude Include="include\GLAD\glad.h" />
     <ClInclude Include="include\GLFW\glfw3.h" />
     <ClInclude Include="include\GLFW\glfw3native.h" />
     <ClInclude Include="include\KHR\khrplatform.h" />
+    <ClInclude Include="include\OTHER\stb_image.h" />
     <ClInclude Include="include\OTHER\termcolor.hpp" />
     <ClInclude Include="include\SHADERCLASS\shader.h" />
   </ItemGroup>
