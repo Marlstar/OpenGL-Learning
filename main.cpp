@@ -54,7 +54,7 @@ int main()
     Window window(settings.window.width, settings.window.height, settings.window.title);
 
     // Rendering
-    Renderer renderer{};
+    Renderer renderer;
 
     // Texture stuff
     TextureManager textureManager;
@@ -99,12 +99,16 @@ int main()
     0.9f, -0.9f, 0.0f,    1.0f, 0.0f, 1.0f,     1.0f, 0.0f
     };
     
+    
     // VAO (Vertex Array Object)
     renderer.vertices.createVAO();
     // Vertex buffer
-    renderer.vertices.createVBO(vertices);
+    renderer.vertices.createVBO(vertices, sizeof(vertices));
 
-    renderer.vertices.bindVBO(vertices);
+    renderer.vertices.bindVBO(vertices, sizeof(vertices));
+    
+
+
 
 
 

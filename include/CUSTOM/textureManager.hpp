@@ -17,10 +17,10 @@
 
 class Texture {
 public:
-	char* name;
-	char* path;
+	const char* name;
+	const char* path;
 	
-	Texture(char* name_, char* path_, bool pixelArt_, bool flipImage_)
+	Texture(const char* name_, const char* path_, bool pixelArt_, bool flipImage_)
 	{
 		name = name_;
 		path = path_;
@@ -125,16 +125,12 @@ class TextureManager {
 public:
 	void initTexture(const char* name_, const char* path_, bool pixelArt = true, bool flipImage = true)
 	{
-		char* name = (char*)name_;
-		char* path = (char*)path_;
-
-
-		Texture* tex = new Texture(name, path, pixelArt, flipImage);
-		textures[name] = tex;
+		Texture* tex = new Texture(name_, path_, pixelArt, flipImage);
+		textures[name_] = tex;
 
 		reloadPreviousTexture();
 	}
-	void useTexture(char* tex, bool setCurrent = true)
+	void useTexture(const char* tex, bool setCurrent = true)
 	{
 		if (tex == currentTexture) { return; }
 		previousTexture = currentTexture;
@@ -146,9 +142,10 @@ private:
 	{
 		if (previousTexture) { useTexture(previousTexture); }
 	}
+
 	std::map<const char*, Texture*> textures;
-	char* currentTexture = (char*)"None";
-	char* previousTexture = NULL;
+	const char* currentTexture = "None";
+	const char* previousTexture = NULL;
 };
 
 #endif // TextureManagerHeader
