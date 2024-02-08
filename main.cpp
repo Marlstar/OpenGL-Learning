@@ -54,13 +54,15 @@ int main()
     Window window(settings.window.width, settings.window.height, settings.window.title);
 
     // Rendering
-    Renderer renderer;
+    Renderer renderer{};
 
     // Texture stuff
     TextureManager textureManager;
 
     // Tilemap
     TilemapManager tilemapManager;
+
+    
     
     // Creating the window
     glfwMakeContextCurrent(window.window);
@@ -68,6 +70,18 @@ int main()
     glManager.checkGlad();
     
     window.initialConfiguration();
+
+    // #=====# \\
+    // Shaders \\
+    // #=====# \\ 
+    // Vertex and fragment shaders
+    Shader basicShader("resources/shaders/VertexShader.glsl", "resources/shaders/FragmentShader.glsl");
+
+    // #======# \\
+    // Textures \\
+    // #======# \\ 
+    textureManager.initTexture("Dirt", "resources/textures/dirt.png");
+    textureManager.initTexture("Grass", "resources/textures/grass.png");
 
 
     // #============================# \\ 
@@ -85,32 +99,17 @@ int main()
     0.9f, -0.9f, 0.0f,    1.0f, 0.0f, 1.0f,     1.0f, 0.0f
     };
     
-
-    // Vertex buffer
-    renderer.vertices.createVBO(vertices);
-    unsigned int& VBO = renderer.vertices.VBO;
-    
-
-    // #======# \\
-    // Textures \\
-    // #======# \\ 
-    textureManager.initTexture("Dirt", "resources/textures/dirt.png");
-    textureManager.initTexture("Grass", "resources/textures/grass.png");
-    
-    // #=====# \\
-    // Shaders \\
-    // #=====# \\ 
-    Shader basicShader("resources/shaders/VertexShader.glsl", "resources/shaders/FragmentShader.glsl");
-
-
     // VAO (Vertex Array Object)
     renderer.vertices.createVAO();
-    unsigned int& VAO = renderer.vertices.VAO;
+    // Vertex buffer
+    renderer.vertices.createVBO(vertices);
 
-    // Bind to the buffer containing the vertices
     renderer.vertices.bindVBO(vertices);
 
+
+
     // Set the vertex attribute pointers
+    // TODO: move to renderer.vertices.configureVertices()
     int count;
 
     // Position:        ID: 0, Size: 3
@@ -164,7 +163,7 @@ int main()
         numTriangles = sizeof(vertices) / sizeof(float) / 8;
         //glUseProgram(shaderProgram);
         basicShader.use();
-        glBindVertexArray(VAO);
+        glBindVertexArray(renderer.vertices.VAO);
         glDrawArrays(GL_TRIANGLES, 0, numTriangles);
 
            
