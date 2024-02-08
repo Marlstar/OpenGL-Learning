@@ -54,7 +54,7 @@ int main()
     Window window(settings.window.width, settings.window.height, settings.window.title);
 
     // Rendering
-    Renderer renderer{};
+    Renderer renderer;
 
     // Texture stuff
     TextureManager textureManager;
@@ -100,12 +100,11 @@ int main()
     };
     
     // VAO (Vertex Array Object)
-    renderer.vertices.createVAO();
+    renderer.createVAO();
     // Vertex buffer
-    renderer.vertices.createVBO(vertices);
+    renderer.createVBO(vertices, sizeof(vertices));
 
-    renderer.vertices.bindVBO(vertices);
-
+    renderer.bindVBO(vertices, sizeof(vertices));
 
 
     // Set the vertex attribute pointers
@@ -151,11 +150,11 @@ int main()
         // Set the texture to use
         if (spacePressed)
         {
-            textureManager.useTexture((char*)"Grass");
+            textureManager.useTexture("Grass");
         }
         else
         {
-            textureManager.useTexture((char*)"Dirt");
+            textureManager.useTexture("Dirt");
         }
 
         // Drawing the triangles =)
@@ -163,7 +162,7 @@ int main()
         numTriangles = sizeof(vertices) / sizeof(float) / 8;
         //glUseProgram(shaderProgram);
         basicShader.use();
-        glBindVertexArray(renderer.vertices.VAO);
+        glBindVertexArray(renderer.VAO);
         glDrawArrays(GL_TRIANGLES, 0, numTriangles);
 
            

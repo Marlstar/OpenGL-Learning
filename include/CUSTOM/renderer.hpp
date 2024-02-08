@@ -1,3 +1,5 @@
+#pragma once
+
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
@@ -12,16 +14,14 @@
 class Renderer
 {
 public:
-	struct
-	{
 		unsigned int VBO;
 		unsigned int VAO;
 
-		void createVBO(float vertices[])
+		void createVBO(float* vertices, GLsizeiptr size)
 		{
 			glGenBuffers(1, &VBO);
 			glBindBuffer(GL_ARRAY_BUFFER, VBO);
-			glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+			glBufferData(GL_ARRAY_BUFFER, size, vertices, GL_STATIC_DRAW);
 			std::cout << colour::bright_green << "INFO | Created VBO" << colour::reset << std::endl;
 		}
 		void createVAO()
@@ -31,10 +31,10 @@ public:
 			std::cout << colour::bright_green << "INFO | Created VAO" << colour::reset << std::endl;
 		}
 
-		void bindVBO(float vertices[])
+		void bindVBO(float* vertices, GLsizeiptr size)
 		{
 			glBindBuffer(GL_ARRAY_BUFFER, VBO);
-			glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+			glBufferData(GL_ARRAY_BUFFER, size, vertices, GL_STATIC_DRAW);
 			std::cout << colour::bright_green << "INFO | Bound VBO" << colour::reset << std::endl;
 		}
 		
@@ -42,7 +42,6 @@ public:
 		{
 
 		}
-	} vertices;
 
 private:
 
